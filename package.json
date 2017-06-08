@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "export NODE_ENV=development && webpack-dev-server --config ./task/config.js --progress --colors --hotOnly",
-    "start": "export NODE_ENV=development && webpack-dev-server --config ./task/config.js --progress --colors --hotOnly",
+    "dev": "export NODE_ENV=development && webpack-dev-server --config ./task/config.js --progress --colors",
+    "start": "export NODE_ENV=development && webpack-dev-server --config ./task/config.js --progress --colors",
     "build": "export NODE_ENV=production && webpack --config ./task/config.js"
   },
   "author": "",
@@ -16,12 +16,14 @@
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-import": "^1.2.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.28.0",
     "less": "^2.7.2",
     "less-loader": "^4.0.4",
@@ -29,12 +31,16 @@
     "react-hot-loader": "^1.3.1",
     "rucksack-css": "^0.9.1",
     "style-loader": "^0.18.2",
+    "url-loader": "^0.5.8",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "antd": "^2.10.4",
+    "dva": "^1.2.1",
+    "prop-types": "^15.5.10",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0"
   }
 }

@@ -1,5 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import HomeComponent from 'components/Home'
+import dva from 'dva'
 
-ReactDOM.render(<HomeComponent />, document.getElementById('root'))
+const app = dva()
+
+app.router(require('./router'))
+app.start('#root')

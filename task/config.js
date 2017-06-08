@@ -34,10 +34,11 @@ const base = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['env', 'react'],
+                            presets: ['env', 'react', 'stage-0'],
                             plugins: [
                                 "add-module-exports",
-                                "transform-runtime"
+                                "transform-runtime",
+                                ["import", { "libraryName": "antd", "style": true }]
                             ]
                         }
                     }
@@ -65,6 +66,45 @@ const base = {
                     ]
                 })
             },
+            {
+                test: function(path){
+                    return /\.less$/.test(path) && !/\.module\.less$/.test(path)
+                },
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader', 
+                    use: [
+                        {
+                            loader: 'css-loader', 
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                plugins: postcssPlugins
+                            }
+                        },
+                        {
+                            loader: 'less-loader', 
+                            options: {"modifyVars": theme}
+                        }
+                    ]
+                })
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: 'img/[name].[hash:7].[ext]'
+                }
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: 'fonts/[name].[hash:7].[ext]'
+                }
+            },
         ]
     },
     resolve: {
@@ -86,12 +126,12 @@ const dev = webpackMerge(base, {
     },
     devtool: "source-map",
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"development"'
             }
         }),
+        new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html',

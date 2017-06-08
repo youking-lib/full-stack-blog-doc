@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-register": "^6.24.1",
+    "kcors": "^2.2.1",
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-logger": "^3.0.0",
+    "koa-router": "^7.2.0",
+    "mongoose": "^4.10.5"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1"
+  }
+}

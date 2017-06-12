@@ -12,14 +12,30 @@ import AdminEditor from './container/Admin/Editor'
 import AdminLayout from './container/Admin/Admin'
 
 export default ({history, app}) => {
+    const store = app._store
+
+    function requireAuth(nextState, replace, next) {
+        store.dispatch({
+            type: 'app/requireAuth',
+            next
+        })
+    }
+
+    function onEnterIndex(nextState, replace, next) {
+        store.dispatch({
+            type: 'app/autoAuth'
+        })
+        next()
+    }
+
     return (
         <Router history={history}>
-            <Route path="/" component={AppLayout}>
+            <Route path="/" component={AppLayout} onEnter={onEnterIndex}>
                 <IndexRoute component={Home} />
                 <Route path="archive" component={Archive} />
                 <Route path="about" component={About} />
                 <Route path="article/:id" component={Article} />
-                <Route path="admin" component={AdminLayout}>
+                <Route path="admin" component={AdminLayout} onEnter={requireAuth}>
                     <IndexRedirect to="articles" />
                     <Route path="articles" component={AdminArticles} />
                     <Route path="keywords" component={AdminKeywrods} />

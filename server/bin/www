@@ -1,0 +1,25 @@
+const app = require('../index')
+const config = require('../config')
+const { connect } = require('../lib/db')
+
+const port = process.env.PORT || 8082
+const dbConfig = config.db;
+
+(async () => {
+    // 测试连接 MongoDB
+    try {
+        const info = await connect(dbConfig)
+        console.log(`Success to connect to MongoDB at ${info.host}:${info.port}/${info.name}`)
+    } catch (err) {
+        console.error(err)
+        process.exit()
+    }
+
+    // 开启服务进程
+    try {
+        app.listen(port)
+        console.log(`Server is running at http://localhost:${port}`)
+    } catch (err) {
+        console.error(err)
+    }
+})()

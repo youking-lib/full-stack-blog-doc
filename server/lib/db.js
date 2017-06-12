@@ -1,7 +1,9 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
+
+mongoose.Promise = Promise
 
 // 连接数据库
-export function connect (config) {
+exports.connect = function (config) {
     return new Promise((resolve, reject) => {
 
         mongoose.connection

@@ -142,6 +142,9 @@ const dev = webpackMerge(base, {
         hot: true,
         contentBase: path.resolve(__dirname, '../dist'),
         publicPath: '/',
+        proxy: {
+            "/api/v1": "http://localhost:8082"
+        }
     }
 })
 

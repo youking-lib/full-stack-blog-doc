@@ -1,10 +1,9 @@
 import React from 'react'
-import { Layout, Menu, Breadcrumb, Row, Col } from 'antd'
+import { Layout, Menu, Breadcrumb, Row, Col, Icon } from 'antd'
 
 import { Router, Link } from 'dva/router'
 
 const HeaderComponent = (props) => {
-
     const { children, routes } = props
     const routePath = (routes[routes.length - 1] || {}).path || '/'
     
@@ -28,6 +27,15 @@ const HeaderComponent = (props) => {
                     </div>
                 </Col>
             </Row>
+        </div>
+    )
+}
+
+HeaderComponent.HeaderRight = () => {
+    return (
+        <div>
+            <Link style={{marginRight: 16}} to="/admin">Admin</Link>
+            <Link to="/logout" style={{color: 'red'}}><Icon type="logout" /></Link>
         </div>
     )
 }

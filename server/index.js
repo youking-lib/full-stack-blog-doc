@@ -1,15 +1,16 @@
-import koa from 'koa'
-import logger from 'koa-logger'
-import bodyParser from 'koa-bodyparser'
-import kcors from 'kcors'
-import routes from './routes'
-// import passport from './lib/auth'
-
+const koa = require('koa')
+const logger = require('koa-logger')
+const bodyParser = require('koa-bodyparser')
+const kcors = require('kcors')
+const routes = require('./routes')
+const passport = require('./lib/auth').passport
 
 const app = new koa()
+
 app.use(logger())
 app.use(kcors())
 app.use(bodyParser())
+app.use(passport.initialize())
 app.use(routes)
 
 module.exports = app

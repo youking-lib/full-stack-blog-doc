@@ -5,10 +5,7 @@ import Style from './Login.module.less'
 
 const FormItem = Form.Item
 
-const ModelFooter = (props) => {
-
-    const { onSubmit } = props
-
+const ModelFooter = ({ onSubmit }) => {
     return (
         <div className={Style.footer}>
             <div style={{float: 'left'}}>Social account: <Icon type="github" /> <Icon type="apple" /> <Icon type="chrome" /></div>
@@ -22,10 +19,7 @@ const ModelFooter = (props) => {
 }
 
 const LoginForm = (props) => {
-
     const { getFieldDecorator } = props.form
-
-
     return (
         <Form onSubmit={() => {}} className="login-form">
             <FormItem>
@@ -57,7 +51,7 @@ const LoginForm = (props) => {
 
 const ModelBody = Form.create()(LoginForm)
 
-class LoginModel extends React.Component {
+class LoginComponent extends React.Component {
     constructor(props) {
         super(props)
 
@@ -85,9 +79,7 @@ class LoginModel extends React.Component {
     }
 
     handleSubmit = () => {
-        const { doLogin } = this.props
         const form = this.refs.form
-
         form.validateFields((err, values) => {
             if (err === null) {
                 this.props.doLogin({
@@ -117,8 +109,9 @@ class LoginModel extends React.Component {
     }
 }
 
-LoginModel.PropTypes = {
-    doLogin: PropTypes.func.isRequired
+LoginComponent.PropTypes = {
+    doLogin: PropTypes.func.isRequired,
+    app: PropTypes.object
 }
 
-export default LoginModel
+export default LoginComponent

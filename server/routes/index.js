@@ -1,6 +1,14 @@
-import Router from 'koa-router'
+const Router = require('koa-router')
+const Api = require('./api')
 
-const router = new Router({prefix: '/api/v1'})
-router.get('/', async ctx => ctx.body = 'Hello world!')
+const router = new Router()
 
-export default router.routes()
+// Index
+router.get('/', async ctx => {
+    ctx.body = 'Hello world!'
+})
+// Restful Api
+router.use('/api/v1', Api)
+
+
+module.exports = router.routes()

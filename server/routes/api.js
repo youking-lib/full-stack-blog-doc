@@ -1,6 +1,8 @@
 const Router = require('koa-router')
-const User = require('../controllers/user')
 const { isBearerAuthenticated, isLocalAuthenticated } = require('../lib/auth')
+const User = require('../controllers/user')
+const Keyword = require('../controllers/keyword')
+const Article = require('../controllers/article')
 
 const router = new Router()
 
@@ -24,5 +26,15 @@ User.seed()
 // Auth
 router.post('/auth', isLocalAuthenticated(), User.signToken)
 router.get('/auth', isBearerAuthenticated(), User.getUserByToken)
+
+// Keyword
+router.get('/keyword', Keyword.query)
+router.post('/keyword', isBearerAuthenticated(), User.requireSuperAdmin, Keyword.create)
+router.delete('/keyword/:_id', isBearerAuthenticated(), User.requireSuperAdmin, Keyword.del)
+
+// Article
+router.get('/article', Article.query)
+router.post('/article', isBearerAuthenticated(), User.requireSuperAdmin, Article.create)
+router.delete('/article/:_id', isBearerAuthenticated(), User.requireSuperAdmin, Article.del)
 
 module.exports = router.routes()

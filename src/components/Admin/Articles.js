@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table, Spin, Popconfirm } from 'antd'
 import { Link } from 'dva/router'
+import { formatDate } from '../../utils'
 
 const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -17,7 +18,7 @@ const rowSelection = {
     }),
 }
 
-const Article = ({articles, deleteArticle, loading}) => {
+const Articles = ({articles, deleteArticle, loading, handleEditArticle, handleDelArticle}) => {
     const columns = [
         {
             title: '标题',
@@ -31,6 +32,9 @@ const Article = ({articles, deleteArticle, loading}) => {
         }, {
             title: '创建时间',
             dataIndex: 'meta.createAt',
+            render(text){
+                return formatDate(text)
+            }
         }, {
             title: '关键词',
             dataIndex: 'keywords',
@@ -46,9 +50,9 @@ const Article = ({articles, deleteArticle, loading}) => {
             render(text, record, index){
                 return (
                     <span>
-                        <Link>编辑</Link>
+                        <a onClick={() => {handleEditArticle(record)}}>编辑</a>
                         <span className="ant-divider" />
-                        <Popconfirm title="Are you sure？" onConfirm={() => { deleteArticle(record._id) }}>
+                        <Popconfirm title="Are you sure？" onConfirm={() => { handleDelArticle(record._id) }}>
                             <a href="#">Delete</a>
                         </Popconfirm>
                     </span>
@@ -56,15 +60,20 @@ const Article = ({articles, deleteArticle, loading}) => {
             }
         }
     ]
-
     return (
         <div>
-            <Table loading={loading} rowSelection={rowSelection} columns={columns} dataSource={articles} />
+            <Table 
+                loading={loading} 
+                rowSelection={rowSelection} 
+                columns={columns} 
+                rowKey="_id" 
+                dataSource={articles} 
+            />
         </div>
-        )
+    )
 }
 
 
 
-module.exports = Article
+module.exports = Articles
 

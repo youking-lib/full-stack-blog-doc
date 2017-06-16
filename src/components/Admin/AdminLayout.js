@@ -10,8 +10,8 @@ const SubMenu = Menu.SubMenu
 
 class AdminLayout extends Component {
     state = {
-        collapsed: false,
-        mode: 'inline',
+        collapsed: true,
+        mode: 'vertical',
     }
 
     onCollapse = (collapsed) => {
@@ -21,14 +21,13 @@ class AdminLayout extends Component {
         })
     }
 
-    componentDidMount() {
-        setTimeout(() => this.onCollapse(true), 3000)
-    }
+    // componentDidMount() {
+    //     setTimeout(() => this.onCollapse(true), 5000)
+    // }
 
     render(){
         const {children, history, routes} = this.props
         const routePath = (routes[routes.length - 1] || {}).path || ''
-
         return (
             <Layout>
                 <Sider
@@ -37,8 +36,8 @@ class AdminLayout extends Component {
                   onCollapse={this.onCollapse}
                   style={{minHeight: 500}}
                 >
-                    <Menu mode={this.state.mode} defaultSelectedKeys={[routePath]}>
-                        <Menu.Item key="add">
+                    <Menu mode={this.state.mode} selectedKeys={[routePath]}>
+                        <Menu.Item key="editor">
                             <Link to="/admin/editor">
                                 <Icon type="plus" />
                                 <span className="nav-text">写文章</span>

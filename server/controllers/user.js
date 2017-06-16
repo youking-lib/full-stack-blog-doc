@@ -2,6 +2,7 @@ const UserModel = require('../models/user')
 const TokenModel = require('../models/accessToken')
 const { genHash } = require('../utils')
 const config = require('../config')
+const { ADMIN_MIN_LEVEL, SUPERADMIN_MIN_LEVEL } = config.CONSTANTS
 
 exports.signToken = async function (ctx, next) {
     const { user } = ctx.req
@@ -27,12 +28,37 @@ exports.getUserByToken = async function (ctx, next) {
 }
 
 // 初始化超级管理员
-
 exports.seed = async function (ctx, next) {
     const users = await UserModel.find({})
     const adminInfo = config.admin
     if (users.length === 0) {
         const _admin = new UserModel(adminInfo)
         const adminUser = await _admin.save()
+    }
+}
+
+exports.requireAdmin = async function (ctx, next) {
+    const { user } = ctx.req
+    if (user.level >= ADMIN_MIN_LEVEL) {
+        return next()
+    }
+    ctx.status = 401
+    ctx.body = {
+        error: {
+            message: '需要管理员权限哦！'
+        }
+    }
+}
+
+exports.requireSuperAdmin = async function (ctx, next) {
+    const { user } = ctx.req
+    if (user.level >= SUPERADMIN_MIN_LEVEL) {
+        return next()
+    }
+    ctx.status = 401
+    ctx.body = {
+        error: {
+            message: '需要超级管理员权限哦！'
+        }
     }
 }

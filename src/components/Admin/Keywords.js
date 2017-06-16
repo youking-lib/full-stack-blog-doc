@@ -109,7 +109,7 @@ class EditableTable extends React.Component {
                 title: <span>名称 &nbsp;&nbsp;&nbsp;<a onClick={this.showModal}><Icon type="plus-circle-o" /></a> </span>,
                 dataIndex: 'title',
                 render: (text, record, index) => (
-                    <EditableCell value={text} onChange={this.onCellChange(index, 'name')} />
+                    <EditableCell value={text} onChange={this.onCellChange(record)} />
                 ),
             },
             {
@@ -138,19 +138,18 @@ class EditableTable extends React.Component {
         }
     }
     // edit keyword
-    onCellChange = (index, key) => {
+    onCellChange = (record) => {
         return (value) => {
-            const dataSource = [...this.state.dataSource];
-            dataSource[index][key] = value;
-            this.setState({
-                dataSource
-            });
-        };
+            const { des, _id } = record
+            this.props.updateKeyword({
+                des, _id, title: value
+            })
+        }
     }
     // delete keyword
     onDelete = (index) => {
         const target = this.props.keywords[index];
-        typeof this.props.deleteKeyword === 'function' && this.props.deleteKeyword(target._id)        
+        typeof this.props.delKeyword === 'function' && this.props.delKeyword(target._id)        
     }
     // show keyword modal
     showModal = () => {
@@ -172,13 +171,22 @@ class EditableTable extends React.Component {
             this.setState({ modalVisible: false })
         })
     }
+
     render() {
-        const columns = this.columns;
-        let dataSource = this.props.keywords
+        const columns = this.columns
+        const dataSource = this.props.keywords
 
         return (
             <div>
-                <Table size="small" style={{margin: '10px'}} bordered dataSource={dataSource} columns={columns} />
+                <Table 
+                    size="small" 
+                    loading={this.props.loading}
+                    style={{margin: '10px'}} 
+                    rowKey="_id" 
+                    bordered 
+                    dataSource={dataSource} 
+                    columns={columns} 
+                />
                 <CollectionCreateForm
                     ref="form"
                     visible={this.state.modalVisible}

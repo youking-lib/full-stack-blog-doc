@@ -3,7 +3,11 @@ const base = {
         username: 'whistleyz',
         password: 'admin123',
         email: 'whistleyz@163.com',
-        level: 51  // 超管
+        level: 50  // 超管
+    },
+    CONSTANTS: {
+        ADMIN_MIN_LEVEL: 10,      // 管理员 level
+        SUPERADMIN_MIN_LEVEL: 50  // 超级管理员 level
     }
 }
 

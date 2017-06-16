@@ -3,12 +3,25 @@ import { connect } from 'dva'
 
 import HomeComponent from 'components/Home'
 
-const Home = ({}) => {
+const Home = (props) => {
     return (
-        <HomeComponent />
+        <HomeComponent {...props} />
     )
 }
 
-// Home.propTypes = {}
+const mapStateToProps = ({article}) => {
+    const { articles } = article
+    return {
+        articles
+    }
+}
 
-export default connect()(Home)
+const mapDispatchToProps = dispatch => {
+    return {
+        handleEditArticle(articleDoc){
+            dispatch({type: 'article/handleEditArticle', payload: articleDoc})
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

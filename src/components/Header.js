@@ -6,14 +6,13 @@ import { Router, Link } from 'dva/router'
 const HeaderComponent = (props) => {
     const { children, routes } = props
     const routePath = (routes[routes.length - 1] || {}).path || '/'
-    
     return (
         <div>
             <Row>
                 <Col span={16}>
                     <Menu
                         mode="horizontal"
-                        defaultSelectedKeys={[routePath]}
+                        selectedKeys={[routePath]}
                         style={{ lineHeight: '64px', backgroundColor: 'transparent' }}
                     >
                         <Menu.Item key="/"><Link to="/">Home</Link></Menu.Item>

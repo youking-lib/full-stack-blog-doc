@@ -13,7 +13,6 @@ passport.deserializeUser(async (username, done) => {
 
 passport.use(new BearerStrategy(async (token, done) => {
     try {
-        console.log(token)
         const accessToken = await AccessToken.findOne({token}).populate('user')
         accessToken ? done(null, accessToken.user) : done(null, false, {type: 'error', message: '授权失败！'})
     } catch (err) {

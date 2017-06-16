@@ -1,5 +1,6 @@
 import { doLogin, getUserByToken } from '../service/app'
 import { LocalStorage } from '../utils'
+import { routerRedux } from 'dva/router'
 import { message } from 'antd'
 
 export default {
@@ -13,7 +14,6 @@ export default {
         *requireAuth({next}, {take, call, put}){
             yield [put({type: 'checkToken'}), put({type: 'getUserByToken'})]
             yield [take('app/loginSuccess'), take('app/authSuccess')]
-            console.log(next)
             typeof next === 'function' && next()
         },
         *autoAuth({}, {call, put}){
@@ -53,6 +53,11 @@ export default {
                 message.error(err.message)
                 yield put({type: 'authErr'})
             }
+        },
+        *logout({next}, {call, put}){
+            LocalStorage.removeItem('token')
+            yield put({type: 'authErr'})
+            yield put(routerRedux.replace('/'))
         }
     },
     reducers: {

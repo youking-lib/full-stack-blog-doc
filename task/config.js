@@ -51,7 +51,7 @@ const base = {
                     use: [
                         {
                             loader: 'css-loader', 
-                            options: { modules: true, importLoaders: 1, localIdentName: '[name]__[local]___[hash:base64:5]'} 
+                            options: { modules: true, importLoaders: 1, localIdentName: '[local]___[hash:base64:5]'} 
                         },
                         {
                             loader: 'postcss-loader',
@@ -117,13 +117,14 @@ const base = {
         new ExtractTextPlugin({
             filename: 'css/[name]-[hash].css'
         }),
-    ]
+    ],
 }
 
 const dev = webpackMerge(base, {
     output: {
         publicPath: '/'
     },
+    stats: "errors-only",
     devtool: "source-map",
     plugins: [
         new webpack.DefinePlugin({

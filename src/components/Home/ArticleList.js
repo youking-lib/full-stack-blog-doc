@@ -27,7 +27,7 @@ const ArticleItem = ({article, handleEditArticle}) => {
         <Card>
             <Row type="flex" justify="space-around" align="middle">
                 <Col span={18}>
-                    <h1><Link>{article.title}</Link></h1>
+                    <h1><Link to={`/article/${article._id}`}>{article.title}</Link></h1>
                     <p>
                         <Icon type="calendar" /> 2017-6-8
                         &nbsp;&nbsp;&nbsp;

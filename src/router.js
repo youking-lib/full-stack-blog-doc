@@ -53,7 +53,14 @@ export default ({history, app}) => {
             type: 'keyword/requireKeywords',
             next
         })
-        
+    }
+
+    function requireArticleToPreview ({params}, replace, next) {
+        store.dispatch({
+            type: 'article/requireArticleToPreview',
+            payload: params,
+            next
+        })
     }
 
     return (
@@ -62,7 +69,7 @@ export default ({history, app}) => {
                 <IndexRoute component={Home} onEnter={requireArticles} />
                 <Route path="archive" component={Archive} />
                 <Route path="about" component={About} />
-                <Route path="article/:id" component={Article} />
+                <Route path="article/:_id" component={Article} onEnter={requireArticleToPreview} />
                 <Route path="admin" component={AdminLayout} onEnter={requireAuth}>
                     <IndexRedirect to="articles" />
                     <Route path="articles" component={AdminArticles} onEnter={requireArticles} />

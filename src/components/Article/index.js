@@ -1,29 +1,49 @@
-import React from 'react'
-import { Tag } from 'antd'
-
+import React, { Component } from 'react' 
 import Style from './index.module.less'
+import { Tag } from 'antd'
+import Editor from '../Editor/core'
 
-const Article = () => {
-    return (
-        <div style={{ background: '#fff', padding: '16px', minHeight: 280, overflow: 'hidden' }}>
-            <div className={Style.header}>
-                <h1>
-                    <a>【单页面从前端到后端】Antd + dva 搭建前后台界面</a>
-                </h1>
-                <div className={Style.caption}>
-                    <div className={Style.captionTag}>
-                        <Tag color="red">Javascript</Tag>
-                    </div>
-                    <div className={Style.meta}>
-                        <span> 2017-6-8 | 89浏览 </span>
+import { formatDate, generateTagColor } from '../../utils'
+
+class ArticleComponent extends Component {
+    constructor(props) {
+        super(props)
+        const { editorState } = props.preview
+        this.state = {
+            editorState
+        }
+    }
+    onChange = (editorState) => this.setState({editorState})
+    render(){
+        const { preview } = this.props
+        const { editorState } = this.state
+        return (
+            <div className={Style.wrap}>
+                <div className={Style.header}>
+                    <h1>
+                        <a>{preview.title}</a>
+                    </h1>
+                    <div className={Style.caption}>
+                        <div className={Style.captionTag}>
+                            {
+                                preview.keywords.map(keyword => 
+                                    <Tag key={keyword._id} color={generateTagColor()}>{keyword.title}</Tag>
+                                )
+                            }
+                        </div>
+                        <div className={Style.meta}>
+                            <span>{formatDate(preview.meta.updateAt)} | 89浏览 </span>
+                        </div>
                     </div>
                 </div>
+                <div className={Style.content}>
+                    <Editor readOnly={true} onChange={this.onChange} spellCheck={true} editorState={editorState} />
+                </div>
+
             </div>
-            <div className={Style.content}>
-                内容
-            </div>
-        </div>
-    )   
+        )
+    }
 }
 
-export default Article
+
+export default ArticleComponent

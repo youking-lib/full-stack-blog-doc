@@ -63,7 +63,7 @@ class EditorComponent extends Component {
                                 size="large"
                                 style={{ width: '100%', display: 'block' }}
                                 placeholder="Please select"
-                                defaultValue={keywords.map(item => item._id)}
+                                value={keywords.map(item => item._id)}
                                 onChange={(value) => this.onKeywordsSelect(value)}
                             >
                                 {keywordsOrigin.map(item => <Option value={item._id} key={item._id}>{item.title}</Option>)}

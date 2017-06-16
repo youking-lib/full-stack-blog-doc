@@ -111,8 +111,22 @@ export default {
         },
         *resetDraftEditorState({}, {put}){
             yield put({type: 'resetDraftToNull'})
-            yield put(routerRedux.replace('/admin/add'))
-        }
+            yield put(routerRedux.replace('/admin/editor'))
+        },
+        *requireArticleToPreview({payload, next}, {put, call}){
+            const { data, success } = yield call(query, `_id=${payload._id}`)
+            const article = data[0]
+            if (success) {
+                const contentState = article.content
+                contentState.entityMap = contentState.entityMap || {}
+                const rawContent = convertFromRaw(contentState)
+                const editorState = EditorState.createWithContent(rawContent)
+                yield put({type: 'previewPrepared', payload: {
+                    ...article, editorState
+                }})
+                next && next()
+            }
+        },
     },
     reducers: {
         querySuccess(state, {payload}){
@@ -136,15 +150,9 @@ export default {
             }
         },
         previewPrepared(state, {payload}){
-            const { preview } = state
-            const contentState = payload.content
-            contentState.entityMap = contentState.entityMap || {}
-            const rawContent = convertFromRaw(contentState)
-            const editorState = EditorState.createWithContent(rawContent)
-
             return {
-                ...state, preview: {...payload, editorState}
-            }            
+                ...state, preview: payload
+            }
         },
         resetDraftToNull (state, {payload}) {
             return {

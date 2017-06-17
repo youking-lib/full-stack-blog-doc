@@ -4,3 +4,4 @@ node_modules
 upload
 npm-debug.log
 logs/
+ecosystem.json

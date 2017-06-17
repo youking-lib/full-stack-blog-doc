@@ -11,7 +11,7 @@ const base = {
     }
 }
 
-const dev = Object.assign(base, {
+const dev = Object.assign({}, base, {
     db: {
         host: '127.0.0.1',
         port: 27017,
@@ -23,7 +23,7 @@ const dev = Object.assign(base, {
     }
 })
 
-const prod = Object.assign(base, {
+const prod = Object.assign({}, base, {
 
 })
 

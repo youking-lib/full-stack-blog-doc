@@ -1,0 +1,28 @@
+{
+    "apps": [{
+        "script": "./server/bin/www",
+        "exec_mode": "cluster",
+        "env": {
+            "COMMON_VARIABLE": true,
+        },
+        "env_production" : {
+            "NODE_ENV": "production",
+        }
+    }],
+    "deploy": {
+        "production": {
+            "user": "server_name",
+            "host": ["59.110.xxx.xxx"],
+            "ref": "origin/master",
+            "repo": "git@github.com:whistleyz/full-stack-blog-doc.git",
+            "port": "server_port",
+            "path": "server_path",
+            "ssh_options": "StrictHostKeyChecking=no",
+            "post-deploy" : "cnpm install && pm2 startOrRestart ecosystem.json --env production",
+            "env": {
+                "NODE_ENV": "production",
+                "PORT": "8080"
+            }
+        }
+    }
+}

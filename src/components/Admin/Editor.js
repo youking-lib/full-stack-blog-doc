@@ -31,7 +31,6 @@ class EditorComponent extends Component {
         this.props.resetDraftEditorState()
     }
     onKeywordsSelect = (value) => {
-        console.log(value)
         this.props.handleDraftChange({
             keywords: value
         })
@@ -50,6 +49,7 @@ class EditorComponent extends Component {
     render(){
         const { title, content, editorState, keywords } = this.props.draft
         const keywordsOrigin = this.props.keywords
+        const selectOptions = keywordsOrigin.map(item => <Option key={item._id}>{item.title}</Option>)
         return (
             <div style={{height: '100%'}}>
                 <Header style={{padding: '16px'}}>
@@ -63,10 +63,10 @@ class EditorComponent extends Component {
                                 size="large"
                                 style={{ width: '100%', display: 'block' }}
                                 placeholder="Please select"
-                                value={keywords.map(item => item._id)}
+                                value={keywords}
                                 onChange={(value) => this.onKeywordsSelect(value)}
                             >
-                                {keywordsOrigin.map(item => <Option value={item._id} key={item._id}>{item.title}</Option>)}
+                                {selectOptions}
                             </Select>
                         </Col>
                     </InputGroup>

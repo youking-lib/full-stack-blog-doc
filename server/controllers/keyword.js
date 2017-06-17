@@ -3,7 +3,12 @@ const KeywordModel = require('../models/keyword')
 exports.query = async function (ctx) {
     const _query = ctx.query
     const result = await KeywordModel.find(_query).lean()
-    console.log(result)
+
+    if (result.length === 0) {
+        ctx.status = 404
+        throw new Error('没找到！')
+    }
+    
     ctx.status = 200
     ctx.body = {
         success: true,

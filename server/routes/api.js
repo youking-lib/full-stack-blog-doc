@@ -3,6 +3,7 @@ const { isBearerAuthenticated, isLocalAuthenticated } = require('../lib/auth')
 const User = require('../controllers/user')
 const Keyword = require('../controllers/keyword')
 const Article = require('../controllers/article')
+const Archive = require('../controllers/archive')
 
 const router = new Router()
 
@@ -11,7 +12,7 @@ router.use(async (ctx, next) => {
         await next()
     } catch (error) {
         console.error(error)
-        ctx.status = 400
+        ctx.status = ctx.status || 400
         ctx.body = {
             code: error.code,
             message: error.message || error.errmsg || error.msg || 'unknown_error',
@@ -36,5 +37,8 @@ router.delete('/keyword/:_id', isBearerAuthenticated(), User.requireSuperAdmin, 
 router.get('/article', Article.query)
 router.post('/article', isBearerAuthenticated(), User.requireSuperAdmin, Article.create)
 router.delete('/article/:_id', isBearerAuthenticated(), User.requireSuperAdmin, Article.del)
+
+// Archive
+router.get('/archive', Archive.query)
 
 module.exports = router.routes()

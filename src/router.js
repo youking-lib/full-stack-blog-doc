@@ -63,11 +63,18 @@ export default ({history, app}) => {
         })
     }
 
+    function lazyloadTimeline (nextState, replace, next) {
+        store.dispatch({
+            type: 'archive/lazyloadTimeline'
+        })
+        next()
+    }
+
     return (
         <Router history={history}>
             <Route path="/" component={AppLayout} onEnter={onEnterIndex}>
                 <IndexRoute component={Home} onEnter={requireArticles} />
-                <Route path="archive" component={Archive} />
+                <Route path="archive" component={Archive} onEnter={lazyloadTimeline} />
                 <Route path="about" component={About} />
                 <Route path="article/:_id" component={Article} onEnter={requireArticleToPreview} />
                 <Route path="admin" component={AdminLayout} onEnter={requireAuth}>

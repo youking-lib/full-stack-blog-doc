@@ -101,8 +101,9 @@ export default {
             contentState.entityMap = contentState.entityMap || {}
             const rawContent = convertFromRaw(contentState)
             const editorState = EditorState.createWithContent(rawContent)
+            const keywords = payload.keywords.map(item => item._id)
             yield put({type: 'updateDraft', payload: {
-                ...payload, editorState
+                ...payload, editorState, keywords
             }})
             yield put(routerRedux.push('/admin/editor'))
         },

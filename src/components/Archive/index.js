@@ -5,7 +5,7 @@ import { Row, Col, Timeline, Icon, Spin } from 'antd'
 import UserCard from 'components/UserCard'
 import TimelineComponent from './Timeline'
 
-const Archive = () => {
+const Archive = ({archives, loading}) => {
     return (
         <div style={{ padding: '16px'}}>
             <Row gutter={24}>
@@ -13,7 +13,11 @@ const Archive = () => {
                     <UserCard />
                 </Col>
                 <Col span={18 }>
-                    <TimelineComponent />
+                    <Spin spinning={loading}>
+                        <div style={{minHeight: 400}}>
+                            {archives ? <TimelineComponent archives={archives} /> : '可能还没写文章 = ='}
+                        </div>
+                    </Spin>
                 </Col>
             </Row>
         </div>

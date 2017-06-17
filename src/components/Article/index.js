@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Style from './index.module.less'
 import { Tag } from 'antd'
 import Editor from '../Editor/core'
-
 import { formatDate, generateTagColor } from '../../utils'
 
 class ArticleComponent extends Component {

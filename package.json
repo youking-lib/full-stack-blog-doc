@@ -8,7 +8,8 @@
     "dev": "export NODE_ENV=development && webpack-dev-server --config ./task/config.js --progress --colors",
     "start": "export NODE_ENV=development && webpack-dev-server --config ./task/config.js --progress --colors",
     "build": "export NODE_ENV=production && webpack --progress --config ./task/config.js",
-    "server": "pm2 start server/bin/www --watch --name blog && pm2 log blog"
+    "server": "pm2 start server/bin/www --watch --name blog && pm2 log blog",
+    "deploy": "pm2 deploy ecosystem.json production"
   },
   "author": "",
   "license": "ISC",

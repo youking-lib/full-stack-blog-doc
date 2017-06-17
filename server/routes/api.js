@@ -7,6 +7,7 @@ const Archive = require('../controllers/archive')
 
 const router = new Router()
 
+
 router.use(async (ctx, next) => {
     try {
         await next()
@@ -20,7 +21,6 @@ router.use(async (ctx, next) => {
         }
     }
 })
-
 // 初始化用户数据
 User.seed()
 

@@ -14,7 +14,8 @@ app.use(kcors())
 app.use(bodyParser())
 app.use(static(path.join(__dirname, './public'), {
     prefix: '/public',
-    maxAge: 365 * 24 * 60 * 60
+    maxAge: 365 * 24 * 60 * 60,
+    gzip: true
 }))
 app.use(passport.initialize())
 app.use(routes)

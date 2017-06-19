@@ -17,9 +17,9 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '../server/public/assets'),
         publicPath: "/public/assets/",
-        filename: '[name]-[hash].js'
+        filename: '[name]-[chunkhash].js'
     },
-    stats: 'none',
+    stats: 'normal',
     module: {
         rules: [
             {

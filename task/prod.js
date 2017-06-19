@@ -34,17 +34,18 @@ module.exports = {
                 removeAttributeQuotes: true
             }
         }),
-        new WebpackCleanupPlugin({quiet: true,}),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.ProgressPlugin((percentage, msg) => {
-            const stream = process.stderr;
-            if (stream.isTTY && percentage < 0.71) {
-                stream.cursorTo(0);
-                stream.write(`📦  ${chalk.magenta(msg)}`);
-                stream.clearLine(1);
-            } else if (percentage === 1) {
-                console.log(chalk.green('\nwebpack: bundle build is now finished.'));
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            minChunks: function (module) {
+               // this assumes your vendor imports exist in the node_modules directory
+               return module.context && module.context.indexOf('node_modules') !== -1
             }
         }),
+        //CommonChunksPlugin will now extract all the common modules from vendor and main bundles
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'manifest' //But since there are no more common modules between them we end up with just the runtime code included in the manifest file
+        }),
+        new WebpackCleanupPlugin({quiet : true,}),
+        new webpack.NoEmitOnErrorsPlugin(),
     ]
 }

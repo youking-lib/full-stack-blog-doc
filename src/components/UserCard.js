@@ -16,7 +16,7 @@ const UserCard = () => {
                 <hr style={{margin: '4px 0 8px'}} />
 
                 <p><Icon type="environment-o" /> China</p>
-                <p><a href="mailto:whistleyz@164.com"><Icon type="mail" /> whistleyz@164.com </a></p>
+                <p><a href="mailto:whistleyz@164.com"><Icon type="mail" /> whistleyz@163.com </a></p>
                 <p><a href="https://github.com/whistleyz" target="_blank"><Icon type="github" /> github </a></p>
             </div>
         </Card>

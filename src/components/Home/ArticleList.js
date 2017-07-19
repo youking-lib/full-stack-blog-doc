@@ -1,5 +1,5 @@
-import React from 'react'
-import { Tabs, Card, Tag, Icon, Row, Col, Button, Dropdown, Menu } from 'antd'
+import React, { Component } from 'react'
+import { Tabs, Card, Tag, Icon, Row, Col, Button, Dropdown, Menu, Spin } from 'antd'
 import { Link } from 'dva/router'
 import PropTypes from 'prop-types'
 
@@ -50,22 +50,95 @@ const ArticleItem = ({article, handleEditArticle}) => {
     )
 }
 
-const ArticleList = ({articles, handleEditArticle}) => {
+const TabPaneComponent = ({loading, articles, handleEditArticle}) => {
     return (
-        <div>
-            <Tabs defaultActiveKey="1">
-                <TabPane tab="Lastest" key="1">
-                    <div className={Style.articleWrap}>
-                        {articles.map(item => <ArticleItem handleEditArticle={handleEditArticle} key={item._id} article={item} />)}
-                    </div>
-                </TabPane>
-                <TabPane tab="Javascript" key="2">Javascript</TabPane>
-                <TabPane tab="HTML5" key="7">HTML5</TabPane>
-                <TabPane tab="Nodejs" key="8">Nodejs</TabPane>
-                <TabPane tab="CSS3" key="9">CSS3</TabPane>
-            </Tabs>
-        </div>
-        )
+        <Spin spinning={loading} tip="Loading...">
+            <div className={Style.articleWrap}>
+                {articles && articles.map(item => <ArticleItem handleEditArticle={handleEditArticle} key={item._id} article={item} />)}
+            </div>
+        </Spin>
+    )
 }
+
+class ArticleList extends Component {
+    constructor(props) {
+        super(props)
+        
+        this.state = {
+            articles: null
+        }
+    }
+
+    componentWillReceiveProps({articles}) {
+        this.setState({
+            articles
+        })
+    }
+
+    handleClickTabClick = (keyword) => {
+        let articles
+
+        if (keyword === 'Lastest') {
+            articles = this.props.articles.slice(0, 5)
+        } else {
+            articles = this.props.articles.filter(item => {
+                const keywords = item.keywords
+                const index = keywords.findIndex(item => item.title === keyword)
+
+                return index !== -1
+            })
+        }
+
+
+        this.setState({
+            articles
+        })
+    }
+
+    render(){
+        const { loading, keywords, handleEditArticle } = this.props
+        const { articles } = this.state
+
+        return (
+            <div>
+                <Tabs onTabClick={this.handleClickTabClick} defaultActiveKey="Lastest">
+                    <TabPane tab="Lastest" key="Lastest">
+                        <TabPaneComponent loading={loading} articles={articles} handleEditArticle={handleEditArticle} />
+                    </TabPane>
+
+                    { keywords.map(item => 
+                        <TabPane tab={item.title} key={item.title}>
+                            <TabPaneComponent loading={loading} articles={articles} handleEditArticle={handleEditArticle} />
+                        </TabPane> 
+                    ) }
+                </Tabs>
+            </div>
+        )
+    }
+}
+
+// const ArticleList = ({articles, handleEditArticle, loading}) => {
+//     function handleClick(props) {
+        
+//     }
+
+//     return (
+//         <div>
+//             <Tabs onTabClick={handleClick} defaultActiveKey="Lastest">
+//                 <TabPane tab="Lastest" key="Lastest">
+//                     <Spin spinning={loading} tip="Loading...">
+//                         <div className={Style.articleWrap}>
+//                             {articles.map(item => <ArticleItem handleEditArticle={handleEditArticle} key={item._id} article={item} />)}
+//                         </div>
+//                     </Spin>
+//                 </TabPane>
+//                 <TabPane tab="Javascript" key="Javascript">Javascript</TabPane>
+//                 <TabPane tab="HTML5" key="HTML5">HTML5</TabPane>
+//                 <TabPane tab="Nodejs" key="Nodejs">Nodejs</TabPane>
+//                 <TabPane tab="CSS3" key="CSS3">CSS3</TabPane>
+//             </Tabs>
+//         </div>
+//     )
+// }
 
 export default ArticleList

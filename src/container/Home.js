@@ -9,10 +9,13 @@ const Home = (props) => {
     )
 }
 
-const mapStateToProps = ({article}) => {
+const mapStateToProps = ({ article, loading, keyword }) => {
     const { articles } = article
+    const { keywords } = keyword
+    
     return {
-        articles
+        articles, keywords, 
+        loading: loading.effects['article/query']
     }
 }
 

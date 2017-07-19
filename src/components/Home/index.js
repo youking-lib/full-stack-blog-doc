@@ -7,7 +7,7 @@ import ArticleList from './ArticleList'
 
 class Home extends Component {
     render(){
-        const { articles, handleEditArticle } = this.props
+        const { articles, handleEditArticle, loading, keywords } = this.props
         return (
             <div style={{ padding: '16px'}}>
                 <Row gutter={24}>
@@ -15,7 +15,7 @@ class Home extends Component {
                         <UserCard />
                     </Col>
                     <Col span={18 }>
-                        <ArticleList articles={articles} handleEditArticle={handleEditArticle} />
+                        <ArticleList loading={loading} keywords={keywords} articles={articles} handleEditArticle={handleEditArticle} />
                     </Col>
                 </Row>
             </div>

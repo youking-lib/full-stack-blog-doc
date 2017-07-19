@@ -41,6 +41,17 @@ export default ({history, app}) => {
         next()
     }
 
+    function requireArticlesKeywrods (nextState, replace, next) {
+        store.dispatch({
+            type: 'keyword/requireKeywords',
+            next
+        })
+
+        store.dispatch({
+            type: 'article/requireArticles'
+        })
+    }
+
     function requireArticles (nextState, replace, next) {
         store.dispatch({
             type: 'article/requireArticles'
@@ -73,7 +84,7 @@ export default ({history, app}) => {
     return (
         <Router history={history}>
             <Route path="/" component={AppLayout} onEnter={onEnterIndex}>
-                <IndexRoute component={Home} onEnter={requireArticles} />
+                <IndexRoute component={Home} onEnter={requireArticlesKeywrods} />
                 <Route path="archive" component={Archive} onEnter={lazyloadTimeline} />
                 <Route path="about" component={About} />
                 <Route path="article/:_id" component={Article} onEnter={requireArticleToPreview} />

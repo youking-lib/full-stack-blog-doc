@@ -8,7 +8,9 @@ const FormItem = Form.Item
 const ModelFooter = ({ onSubmit }) => {
     return (
         <div className={Style.footer}>
-            <div style={{float: 'left'}}>Social account: <Icon type="github" /> <Icon type="apple" /> <Icon type="chrome" /></div>
+            <div style={{float: 'left', lineHeight: '28px'}}>
+                测试账号: {'{username: "test", password: "test"}'}
+            </div>
             <div style={{float: 'right'}}>
                 <Button type="primary" onClick={onSubmit} htmlType="submit" className="login-form-button">
                     Login

@@ -117,28 +117,4 @@ class ArticleList extends Component {
     }
 }
 
-// const ArticleList = ({articles, handleEditArticle, loading}) => {
-//     function handleClick(props) {
-        
-//     }
-
-//     return (
-//         <div>
-//             <Tabs onTabClick={handleClick} defaultActiveKey="Lastest">
-//                 <TabPane tab="Lastest" key="Lastest">
-//                     <Spin spinning={loading} tip="Loading...">
-//                         <div className={Style.articleWrap}>
-//                             {articles.map(item => <ArticleItem handleEditArticle={handleEditArticle} key={item._id} article={item} />)}
-//                         </div>
-//                     </Spin>
-//                 </TabPane>
-//                 <TabPane tab="Javascript" key="Javascript">Javascript</TabPane>
-//                 <TabPane tab="HTML5" key="HTML5">HTML5</TabPane>
-//                 <TabPane tab="Nodejs" key="Nodejs">Nodejs</TabPane>
-//                 <TabPane tab="CSS3" key="CSS3">CSS3</TabPane>
-//             </Tabs>
-//         </div>
-//     )
-// }
-
 export default ArticleList

@@ -25,15 +25,48 @@ class Carousel extends Component {
         }
     }
 
+    loadImg(imgs){
+        return new Promise((resolve, reject) => {
+            var count = 0
+            var errCount = 0
+            var imgObj ={}
+
+            for (let i=0; i<imgs.length; i++) {
+                imgObj[i] = new Image()
+                imgObj[i].src = imgs[i]
+
+                imgObj[i].onload = function(){
+                    count++
+                    imgObj[i].onload = imgObj[i].onerror = null
+
+                    if (count + errCount === imgs.length) {
+                        resolve()
+                    }
+                }
+
+                imgObj[i].onerror = function(){
+                    errCount++
+                    imgObj[i].onload = imgObj[i].onerror = null
+
+                    if (count + errCount === imgs.length) {
+                        resolve()
+                    }
+                }
+            }
+        })
+    }
+
     componentDidMount() {
         if (this.props.lazyLoad && (this.state.lazyLoadedList.length === 0)) {
-            let lazyLoadedList = []
+            this.loadImg(this.props.lazyLoadImgs).then(() => {
+                let lazyLoadedList = []
 
-            for (var i=0; i<React.Children.count(this.props.children); i++) {
-                lazyLoadedList.push(i)
-            }
+                for (var i=0; i<React.Children.count(this.props.children); i++) {
+                    lazyLoadedList.push(i)
+                }
 
-            this.setState({ lazyLoadedList })
+                this.setState({ lazyLoadedList })
+            })
         }
 
         if (this.props.autoPlay) {
@@ -163,8 +196,15 @@ export default class CarouselComponent extends Component {
             position: 'absolute', top: 0
         }
 
+        const carouselProps = {
+            wrapperStyle, sildeStyle,
+            autoplaySpeed: 5000,
+            lazyLoad: true,
+            lazyLoadImgs: [img1, img2, img3]
+        }
+
         return (
-            <Carousel wrapperStyle={wrapperStyle} autoplaySpeed={5000} sildeStyle={sildeStyle} lazyLoad={true}>
+            <Carousel {...carouselProps}>
                 <div><img width="100%" height="100%" src={img1} /></div>
                 <div><img width="100%" height="100%" src={img2} /></div>
                 <div><img width="100%" height="100%" src={img3} /></div>

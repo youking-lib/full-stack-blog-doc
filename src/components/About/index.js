@@ -6,7 +6,7 @@ import UserCard from 'components/UserCard'
 
 const About = () => {
     return (
-        <div style={{ background: '#fff', padding: '16px', minHeight: 280, overflow: 'hidden' }}>
+        <div style={{ padding: '16px', minHeight: 280, overflow: 'hidden' }}>
             <Row gutter={24}>
                 <Col span={6}>
                     <UserCard />

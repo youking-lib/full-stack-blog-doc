@@ -5,6 +5,9 @@ import { Layout, Menu, Breadcrumb, Row, Col, Icon } from 'antd'
 import HeaderComponent from 'components/Header'
 import FooterComponent from 'components/Footer'
 import LoginComponent from 'components/Login'
+import CarouselComponent from 'components/Carousel'
+
+import Style from './App.module.less'
 
 const { Header, Content, Footer } = Layout
 const { HeaderRight } = HeaderComponent
@@ -12,19 +15,22 @@ const { HeaderRight } = HeaderComponent
 const App = ({children, routes, app, doLogin}) => {
     const { isLogin, user } = app
     return (
-        <Layout>
-            <Header>
-                <HeaderComponent routes={routes}>
-                    {isLogin ? <HeaderRight user={user} /> : <LoginComponent doLogin={doLogin} app={app} /> }
-                </HeaderComponent>
-            </Header>
-            <Content style={{ margin: '24px 100px 0', background: '#fff', minHeight: 280, overflow: 'hidden' }}>
-                {children}
-            </Content>
-            <Footer>
-                <FooterComponent />
-            </Footer>
-        </Layout>
+        <div className={Style.root}>
+            <CarouselComponent />
+            <Layout style={{position: 'relative', zIndex: '1000', backgroundColor: 'transparent'}}>
+                <Header>
+                    <HeaderComponent routes={routes}>
+                        {isLogin ? <HeaderRight user={user} /> : <LoginComponent doLogin={doLogin} app={app} /> }
+                    </HeaderComponent>
+                </Header>
+                <Content style={{ margin: '24px 100px 0', backgroundColor: 'rgba(255,255,255,0.9)', minHeight: 280, overflow: 'hidden' }}>
+                    {children}
+                </Content>
+                <Footer>
+                    <FooterComponent />
+                </Footer>
+            </Layout>
+        </div>
     )
 }
 

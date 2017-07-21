@@ -7,7 +7,6 @@ const Archive = require('../controllers/archive')
 
 const router = new Router()
 
-
 router.use(async (ctx, next) => {
     try {
         await next()
@@ -35,6 +34,7 @@ router.delete('/keyword/:_id', isBearerAuthenticated(), User.requireSuperAdmin, 
 
 // Article
 router.get('/article', Article.query)
+router.get('/article/:_id', Article.getDetail)
 router.post('/article', isBearerAuthenticated(), User.requireSuperAdmin, Article.create)
 router.delete('/article/:_id', isBearerAuthenticated(), User.requireSuperAdmin, Article.del)
 

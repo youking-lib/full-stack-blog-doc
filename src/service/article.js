@@ -12,6 +12,10 @@ export const query = (_query = '') => {
     return request('/article?' + _query)
 }
 
+export const getDetail = _id => {
+    return request('/article/' + _id)
+}
+
 export const del = (_id) => {
     return requestWidthToken(`/article/${_id}`, {
         method: 'delete',

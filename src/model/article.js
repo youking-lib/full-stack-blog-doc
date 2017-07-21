@@ -1,6 +1,7 @@
 import { message } from 'antd'
-import { post, query, del, update } from '../service/article'
-import { convertToRaw, convertFromRaw, EditorState } from 'draft-js';
+import { post, query, del, update, getDetail } from '../service/article'
+import { EditorState } from 'draft-js';
+import { draftUtils } from '../utils'
 import { routerRedux } from 'dva/router'
 
 function sleep(time){
@@ -59,8 +60,7 @@ export default {
             const { editorState, _id, title, keywords } = payload
             const actionType = _id ? 'updateArticle' : 'postArtcile'
             const successMessage = _id ? '更新成功！' : '创建成功！'
-            // const content = draft2Md(convertToRaw(editorState.getCurrentContent()))
-            const content = convertToRaw(editorState.getCurrentContent())
+            const content = draftUtils.stateToContent(editorState)
             try {
                 const { data, success } = yield call(post, {
                     _id, title, keywords, content
@@ -95,15 +95,12 @@ export default {
                 message.error(err.message)
             }
         },
-        *handleEditArticle({payload}, {put}){
-            // const contentState = md2Draft(payload.content)
-            const contentState = payload.content
-            contentState.entityMap = contentState.entityMap || {}
-            const rawContent = convertFromRaw(contentState)
-            const editorState = EditorState.createWithContent(rawContent)
-            const keywords = payload.keywords.map(item => item._id)
+        *handleEditArticle({payload}, {put, call}){
+            const { data, success } = yield call(getDetail, payload._id)
+            const editorState = draftUtils.contentToState(data.content)
+            const keywords = data.keywords.map(item => item._id)
             yield put({type: 'updateDraft', payload: {
-                ...payload, editorState, keywords
+                ...data, editorState, keywords
             }})
             yield put(routerRedux.push('/admin/editor'))
         },
@@ -115,13 +112,10 @@ export default {
             yield put(routerRedux.replace('/admin/editor'))
         },
         *requireArticleToPreview({payload, next}, {put, call}){
-            const { data, success } = yield call(query, `_id=${payload._id}`)
-            const article = data[0]
+            const { data, success } = yield call(getDetail, payload._id)
+            const article = data
             if (success) {
-                const contentState = article.content
-                contentState.entityMap = contentState.entityMap || {}
-                const rawContent = convertFromRaw(contentState)
-                const editorState = EditorState.createWithContent(rawContent)
+                const editorState = draftUtils.contentToState(article.content)
                 yield put({type: 'previewPrepared', payload: {
                     ...article, editorState
                 }})

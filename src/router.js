@@ -70,8 +70,8 @@ export default ({history, app}) => {
         store.dispatch({
             type: 'article/requireArticleToPreview',
             payload: params,
-            next
         })
+        next()
     }
 
     function lazyloadTimeline (nextState, replace, next) {

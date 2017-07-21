@@ -6,6 +6,7 @@ exports.query = async function (ctx) {
     const result = await ArticleModel
             .find(_query)
             .populate('keywords')
+            .select('-content')
             .sort('-meta.createAt')
             .lean()
 
@@ -14,6 +15,16 @@ exports.query = async function (ctx) {
         throw new Error('没找到！')
     }
 
+    ctx.status = 200
+    ctx.body = {
+        success: true,
+        data: result
+    }
+}
+
+exports.getDetail = async function(ctx) {
+    const _id = ctx.params._id
+    const result = await ArticleModel.findById(_id).populate('keywords').lean()
     ctx.status = 200
     ctx.body = {
         success: true,

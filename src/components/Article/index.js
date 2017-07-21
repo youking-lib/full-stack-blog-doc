@@ -1,6 +1,6 @@
 import React, { Component } from 'react' 
 import Style from './index.module.less'
-import { Tag } from 'antd'
+import { Tag, Spin } from 'antd'
 import Editor from '../Editor/core'
 import { formatDate, generateTagColor } from '../../utils'
 
@@ -12,10 +12,19 @@ class ArticleComponent extends Component {
             editorState
         }
     }
-    onChange = (editorState) => this.setState({editorState})
-    render(){
+
+    componentWillReceiveProps(nextProps) {
+        const { editorState } = nextProps.preview
+
+        this.setState({
+            editorState
+        })
+    }
+
+    getBody = () => {
         const { preview } = this.props
         const { editorState } = this.state
+
         return (
             <div className={Style.wrap}>
                 <div className={Style.header}>
@@ -36,10 +45,23 @@ class ArticleComponent extends Component {
                     </div>
                 </div>
                 <div className={Style.content}>
-                    <Editor readOnly={true} onChange={this.onChange} spellCheck={true} editorState={editorState} />
+                        <Editor readOnly={true} onChange={this.onChange} spellCheck={true} editorState={editorState} />
                 </div>
-
             </div>
+        )
+    }
+
+    onChange = (editorState) => this.setState({editorState})
+    
+    render(){
+        const { loading } = this.props
+
+        return (
+            <Spin spinning={loading}>
+                <div className={Style.body}>
+                    { !loading && this.getBody()}
+                </div>
+            </Spin>
         )
     }
 }

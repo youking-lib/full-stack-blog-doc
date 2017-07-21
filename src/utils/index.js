@@ -1,10 +1,12 @@
 export * as LocalStorage from './localStorage'
 export request, { requestWidthToken } from './request'
+export draftUtils from './draftjs'
 
 export function formatDate (date) {
     const d = new Date(date)
     return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
 }
+
 // https://github.com/lodash/lodash/blob/master/debounce.js
 export function debounce (fun, wait, ctx) {
     let timer, lastCallTime

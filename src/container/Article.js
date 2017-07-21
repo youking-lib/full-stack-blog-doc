@@ -9,10 +9,10 @@ const Article = (props) => {
     )
 }
 
-const mapStateToProps = ({article}) => {
+const mapStateToProps = ({ article, loading }) => {
     const { preview } = article
     return {
-        preview
+        preview, loading: loading.effects['article/requireArticleToPreview']
     }
 }
 

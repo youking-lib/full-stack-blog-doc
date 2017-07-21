@@ -73,7 +73,4 @@ const Articles = ({articles, deleteArticle, loading, handleEditArticle, handleDe
     )
 }
 
-
-
 module.exports = Articles
-

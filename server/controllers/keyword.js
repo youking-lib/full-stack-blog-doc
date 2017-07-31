@@ -33,3 +33,32 @@ exports.del = async function (ctx) {
         success: true
     }
 }
+
+exports.updateArticle = async function (newArticle, prevArticle) {
+    const newKeywords = newArticle.keywords
+    const articleId = newArticle._id
+
+    let handles = []
+
+    const setHandlers = newKeywords.map(keywordId => {
+        return KeywordModel.findByIdAndUpdate(keywordId, {$addToSet: {articles: articleId}}) // $addToset 避免重复
+    })
+
+    handles = handles.concat(setHandlers)
+
+    if (prevArticle) {
+        const delKeywords = getComplement(prevArticle.keywords, newKeywords)
+        const delHandlers = delKeywords.map(keywordId => {
+            return KeywordModel.findByIdAndUpdate(keywordId, {$pull: {articles: articleId}})
+        })    
+        handles = handles.concat(delHandlers)
+    }
+
+    const res = await Promise.all(handles)
+}
+
+function getComplement (target, arr) {
+    return target.filter(item => {
+        return arr.indexOf(item) === -1
+    })
+}

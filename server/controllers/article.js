@@ -1,5 +1,6 @@
 const ArticleModel = require('../models/article')
 const AchiveController = require('./archive')
+const KeywordController = require('./keyword')
 
 exports.query = async function (ctx) {
     const _query = ctx.request.query
@@ -45,14 +46,21 @@ exports.del = async function (ctx) {
 exports.create = async function(ctx) {
     const doc = ctx.request.body
     const _id = doc._id
-    let result
+    let result, prevArticle = null
+
     if (_id) {
-        result = await ArticleModel.findByIdAndUpdate(_id, doc)
+        prevArticle = await ArticleModel.findById(_id)
+        
+        await ArticleModel.update({_id: _id}, doc, {upsert: true})
+        result = await ArticleModel.findById(_id)
     } else {
         result = await ArticleModel.create(doc)
         const achive = await AchiveController.create(result)
-        console.log(achive)
     }
+    console.log('result', result.toJSON())
+    console.log('prevArticle', prevArticle.toJSON())
+    const keyword = await KeywordController.updateArticle(result, prevArticle)
+
     ctx.status = 200
     ctx.body = {
         success: true,

@@ -31,7 +31,7 @@ const ArticleSchema = new mongoose.Schema({
     keywords: [{
         type: ObjectId,
         ref: 'Keywords',
-        default: []
+        default: ''
     }]
 })
 

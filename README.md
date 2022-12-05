@@ -1,9 +1,5 @@
 # Full-Stack-Blog 
 
-## 演示 
-[立即前往](http://codingbro.cn)
-测试账号：`{username: 'test', password: 'test'}`
-
 ## 技术栈
 - Koa@2 + MongoDb + Passport 组织后端逻辑
 - React + Dva + Antd 结合实现单页应用
